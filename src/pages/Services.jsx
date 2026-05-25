@@ -13,16 +13,16 @@ function Services() {
       name: 'Tratamiento de Caries',
       description:
         'Restauración dental con materiales de última generación para reparar caries.',
-        image:
-        'https://sevilladental.net/wp-content/uploads/2022/06/tratamiento-para-caries.jpg'
+      image:
+        'https://sevilladental.net/wp-content/uploads/2022/06/tratamiento-para-caries.jpg',
     },
     {
       id: 3,
       name: 'Ortodoncia',
       description:
-        'Alineación dental con braquets metálicos, cerámicos o alineadores invisibles.',
+        'Alineación dental con brackets metálicos, cerámicos o alineadores invisibles.',
       image:
-        'https://images.squarespace-cdn.com/content/v1/59303b953e00bebc0feaff9f/d6df1776-ac35-4094-b353-e4d9b9087682/ortodoncia-clinica-dental-murcia.jpeg'
+        'https://images.squarespace-cdn.com/content/v1/59303b953e00bebc0feaff9f/d6df1776-ac35-4094-b353-e4d9b9087682/ortodoncia-clinica-dental-murcia.jpeg',
     },
     {
       id: 4,
@@ -30,7 +30,7 @@ function Services() {
       description:
         'Tratamiento de conductos radiculares para preservar piezas dentales afectadas.',
       image:
-        'https://www.belodonte.es/wp-content/uploads/2022/10/endodoncia.jpg'
+        'https://www.belodonte.es/wp-content/uploads/2022/10/endodoncia.jpg',
     },
     {
       id: 5,
@@ -38,16 +38,16 @@ function Services() {
       description:
         'Blanqueamiento dental, carillas y tratamientos para una sonrisa perfecta.',
       image:
-        'https://www.ragaortodoncia.com/wp-content/uploads/2017/11/brackets-esteticos-800x350.jpg'
+        'https://www.ragaortodoncia.com/wp-content/uploads/2017/11/brackets-esteticos-800x350.jpg',
     },
     {
       id: 6,
       name: 'Implantes Dentales',
       description:
         'Colocación de implantes de titanio para reemplazar piezas dentales perdidas.',
-        image:
-        'https://images.squarespace-cdn.com/content/v1/59303b953e00bebc0feaff9f/ca4e0045-3162-4b38-8559-e60a83728413/implante-dental-murcia.jpg'
-    }
+      image:
+        'https://images.squarespace-cdn.com/content/v1/59303b953e00bebc0feaff9f/ca4e0045-3162-4b38-8559-e60a83728413/implante-dental-murcia.jpg',
+    },
   ]
 
   return (
@@ -67,13 +67,15 @@ function Services() {
           {services.map((service) => (
             <div className="col-md-4" key={service.id}>
               <div className="card shadow service-card h-100">
-                {service.image ? (
+
+                <div className="service-image-frame">
                   <img
                     src={service.image}
-                    alt={service.name}
-                    className="card-img-top service-image"
+                    alt={`Imagen de ${service.name}`}
+                    className="service-image"
+                    loading="lazy"
                   />
-                ) : null}
+                </div>
 
                 <div className="card-body">
                   <h5 className="card-title fw-bold">
@@ -84,6 +86,7 @@ function Services() {
                     {service.description}
                   </p>
                 </div>
+
               </div>
             </div>
           ))}
