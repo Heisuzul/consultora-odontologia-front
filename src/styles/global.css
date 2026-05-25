@@ -45,3 +45,28 @@ body {
 .custom-btn:hover {
   background-color: #1565c0;
 }
+
+.service-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: 0.3s;
+  background-color: #ffffff;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(30, 136, 229, 0.15) !important;
+}
+
+.service-card .card-title {
+  color: #1e3a5f;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.service-card .card-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #555;
+}
