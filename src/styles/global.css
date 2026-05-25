@@ -1,0 +1,47 @@
+#root {
+  width: 100%;
+}
+
+body {
+  background-color: #f4f8fb;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.page-title {
+  font-weight: bold;
+  color: #1e3a5f;
+}
+
+.subtitle {
+  color: #6c757d;
+}
+
+.dentist-card {
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.dentist-card:hover {
+  transform: translateY(-6px);
+}
+
+.dentist-image {
+  height: 320px;
+  object-fit: cover;
+}
+
+.custom-btn {
+  background-color: #1e88e5;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+}
+
+.custom-btn:hover {
+  background-color: #1565c0;
+}

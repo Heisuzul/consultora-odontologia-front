@@ -4,7 +4,8 @@ function Dentists() {
       id: 1,
       name: 'Dra. Laura Gómez',
       specialty: 'Ortodoncia',
-      experience: '8 años de experiencia',
+      description:
+        'Especialista en alineación dental y tratamientos modernos.',
       image:
         'https://images.unsplash.com/photo-1559839734-2b71ea197ec2'
     },
@@ -12,7 +13,8 @@ function Dentists() {
       id: 2,
       name: 'Dr. Carlos Ramírez',
       specialty: 'Cirugía Oral',
-      experience: '12 años de experiencia',
+      description:
+        'Experto en procedimientos quirúrgicos y salud oral.',
       image:
         'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d'
     },
@@ -20,7 +22,8 @@ function Dentists() {
       id: 3,
       name: 'Dra. Sofía Martínez',
       specialty: 'Odontología Estética',
-      experience: '6 años de experiencia',
+      description:
+        'Tratamientos estéticos para una sonrisa natural.',
       image:
         'https://images.unsplash.com/photo-1594824476967-48c8b964273f'
     }
@@ -29,37 +32,39 @@ function Dentists() {
   return (
     <div className="container py-5">
       <div className="text-center mb-5">
-        <h1>Nuestros Odontólogos</h1>
+        <h1 className="page-title">
+          Nuestro Equipo Odontológico
+        </h1>
 
-        <p className="lead">
-          Profesionales comprometidos con tu salud oral.
+        <p className="subtitle">
+          Profesionales comprometidos con tu salud dental.
         </p>
       </div>
 
-      <div className="row">
+      <div className="row g-4">
         {dentists.map((dentist) => (
-          <div className="col-md-4 mb-4" key={dentist.id}>
-            <div className="card shadow h-100">
+          <div className="col-md-4" key={dentist.id}>
+            <div className="card shadow dentist-card h-100">
               <img
                 src={dentist.image}
-                className="card-img-top"
                 alt={dentist.name}
-                style={{
-                  height: '300px',
-                  objectFit: 'cover'
-                }}
+                className="card-img-top dentist-image"
               />
 
               <div className="card-body text-center">
-                <h4>{dentist.name}</h4>
+                <h4 className="fw-bold">
+                  {dentist.name}
+                </h4>
 
-                <h6 className="text-primary">
+                <p className="text-primary fw-semibold">
                   {dentist.specialty}
-                </h6>
+                </p>
 
-                <p>{dentist.experience}</p>
+                <p className="text-muted">
+                  {dentist.description}
+                </p>
 
-                <button className="btn btn-outline-primary">
+                <button className="btn custom-btn text-white">
                   Ver Perfil
                 </button>
               </div>
