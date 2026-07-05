@@ -1,6 +1,22 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 function Navbar() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token')
+    setIsAuthenticated(!!token)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('user')
+    setIsAuthenticated(false)
+    navigate('/login')
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark site-navbar">
       <div className="container">
@@ -37,11 +53,26 @@ function Navbar() {
                 Dentistas
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Iniciar Sesión
-              </NavLink>
-            </li>
+            {isAuthenticated ? (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/dashboard">
+                    Mi Dashboard
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-outline-light ms-2" onClick={handleLogout}>
+                    Cerrar Sesión
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/login">
+                  Iniciar Sesión
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

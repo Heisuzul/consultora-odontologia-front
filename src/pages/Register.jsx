@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 function Register() {
   const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     email: '',
     telefono: '',
     password: '',
@@ -26,6 +27,11 @@ function Register() {
     // Validación de campos obligatorios
     if (!formData.nombre.trim()) {
       setError('El nombre es obligatorio')
+      return false
+    }
+
+    if (!formData.apellido.trim()) {
+      setError('El apellido es obligatorio')
       return false
     }
 
@@ -96,36 +102,36 @@ function Register() {
     }
 
     try {
-      // Aquí irá la integración con el backend
-      // const response = await fetch('/api/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     nombre: formData.nombre,
-      //     email: formData.email,
-      //     telefono: formData.telefono,
-      //     password: formData.password
-      //   })
-      // })
-      
-      // if (response.status === 409) {
-      //   setError('El correo electrónico ya está registrado')
-      //   return
-      // }
-
-      // Simulación de registro exitoso
-      console.log('Registro attempt:', {
-        nombre: formData.nombre,
-        email: formData.email,
-        telefono: formData.telefono,
-        password: formData.password
+      const API_URL = 'http://localhost:8000'
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          telefono: formData.telefono
+        })
       })
       
+      const data = await response.json()
+      
+      if (!response.ok) {
+        if (response.status === 409) {
+          setError(data.detail || 'El correo o teléfono ya está registrado')
+        } else {
+          setError(data.detail || 'Error al registrar. Por favor, intente nuevamente.')
+        }
+        return
+      }
+
       setSuccess('¡Registro exitoso! Ahora puedes iniciar sesión.')
       
       // Limpiar formulario
       setFormData({
         nombre: '',
+        apellido: '',
         email: '',
         telefono: '',
         password: '',
@@ -167,7 +173,7 @@ function Register() {
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="nombre" className="form-label">
-                    Nombre Completo *
+                    Nombre *
                   </label>
                   <input
                     type="text"
@@ -175,6 +181,21 @@ function Register() {
                     id="nombre"
                     name="nombre"
                     value={formData.nombre}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="apellido" className="form-label">
+                    Apellido *
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="apellido"
+                    name="apellido"
+                    value={formData.apellido}
                     onChange={handleChange}
                     required
                   />

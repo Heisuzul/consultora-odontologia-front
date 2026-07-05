@@ -39,17 +39,25 @@ function Login() {
     }
 
     try {
-      // Aquí irá la integración con el backend
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // })
+      const API_URL = 'http://localhost:8000'
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
       
-      // Simulación de login exitoso
-      console.log('Login attempt:', formData)
-      alert('Login exitoso (simulado)')
-      navigate('/')
+      const data = await response.json()
+      
+      if (!response.ok) {
+        setError(data.detail || 'Credenciales inválidas')
+        return
+      }
+
+      // Guardar el token en localStorage
+      localStorage.setItem('access_token', data.access_token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+      
+      navigate('/dashboard')
       
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, intente nuevamente.')
