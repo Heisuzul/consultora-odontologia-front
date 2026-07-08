@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { getUsuarioActual } from '../services/api'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -55,9 +56,50 @@ function Login() {
 
       // Guardar el token en localStorage
       localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('user', JSON.stringify(data.user))
+      console.log('Token guardado en localStorage:', data.access_token)
       
-      navigate('/dashboard')
+      // Obtener usuario actual con rol real de la base de datos
+      try {
+        console.log('Llamando a getUsuarioActual()...')
+        const usuarioActual = await getUsuarioActual()
+        console.log('Datos recibidos del servidor:', usuarioActual)
+        console.log('Tipo de datos:', typeof usuarioActual)
+        console.log('Claves del objeto:', Object.keys(usuarioActual || {}))
+        
+        localStorage.setItem('user', JSON.stringify(usuarioActual))
+        
+        // Redirigir según el rol
+        console.log('Rol del usuario:', usuarioActual.rol)
+        if (usuarioActual.rol === 'admin') {
+          console.log('Redirigiendo a /admin-dashboard')
+          navigate('/admin-dashboard')
+        } else {
+          console.log('Redirigiendo a /dashboard')
+          navigate('/dashboard')
+        }
+      } catch (err) {
+        console.error('Error al obtener usuario actual:', err)
+        console.error('Mensaje de error:', err.message)
+        console.error('Status del error:', err.status)
+        console.error('Datos del error:', err.data)
+        console.error('Debe redirigir al login:', err.shouldRedirectToLogin)
+        
+        // Si el error indica que debe redirigir al login, limpiar localStorage y redirigir
+        if (err.shouldRedirectToLogin) {
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('user')
+          setError('Sesión expirada. Por favor, inicia sesión nuevamente.')
+          setLoading(false)
+          return
+        }
+        
+        // Mostrar error al usuario
+        setError(`Error al obtener datos del usuario: ${err.message}`)
+        
+        // Si falla, guardar el usuario del JWT y redirigir al dashboard normal
+        localStorage.setItem('user', JSON.stringify(data.user))
+        navigate('/dashboard')
+      }
       
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, intente nuevamente.')

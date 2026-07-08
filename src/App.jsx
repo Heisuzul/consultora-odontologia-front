@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -7,6 +7,7 @@ import Services from './pages/Services'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/AdminDashboard'
 
 function Layout() {
   return (
@@ -15,6 +16,22 @@ function Layout() {
       <Outlet />
     </>
   )
+}
+
+function ProtectedAdminRoute({ children }) {
+  const userData = localStorage.getItem('user')
+  
+  if (!userData) {
+    return <Navigate to="/login" replace />
+  }
+
+  const user = JSON.parse(userData)
+  
+  if (user.rol !== 'admin') {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  return children
 }
 
 function App() {
@@ -28,6 +45,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route 
+            path="/admin-dashboard" 
+            element={
+              <ProtectedAdminRoute>
+                <AdminDashboard />
+              </ProtectedAdminRoute>
+            } 
+          />
         </Route>
       </Routes>
     </BrowserRouter>
