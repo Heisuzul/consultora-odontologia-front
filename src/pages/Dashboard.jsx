@@ -53,6 +53,35 @@ function Dashboard() {
     navigate('/login')
   }
 
+  const handleDownloadPDF = async () => {
+    const token = localStorage.getItem('access_token')
+    try {
+      const API_URL = 'http://localhost:8000'
+      const response = await fetch(`${API_URL}/citas/historial-pdf`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `historial_medico_${new Date().toISOString().split('T')[0]}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      } else {
+        alert('Error al descargar el PDF')
+      }
+    } catch (error) {
+      console.error('Error al descargar PDF:', error)
+      alert('Error al descargar el PDF')
+    }
+  }
+
   if (loading) {
     return (
       <div className="container mt-5 text-center">
@@ -113,8 +142,11 @@ function Dashboard() {
       <div className="row">
         <div className="col-12">
           <div className="card shadow">
-            <div className="card-header bg-info text-white">
+            <div className="card-header bg-info text-white d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">Próximas Citas</h5>
+              <button className="btn btn-light btn-sm" onClick={handleDownloadPDF}>
+                📄 Descargar Historial PDF
+              </button>
             </div>
             <div className="card-body">
               {citas.length === 0 ? (
