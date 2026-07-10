@@ -3,11 +3,19 @@ import { useState, useEffect } from 'react'
 
 function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     setIsAuthenticated(!!token)
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const handleLogout = () => {
@@ -18,10 +26,11 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark site-navbar">
+    <nav className={`navbar navbar-expand-lg navbar-light ${isScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-          Consultora Odontológica
+          <span className="dental-icon">🦷</span>
+          <span className="brand-text">Consultora Odontológica</span>
         </Link>
 
         <button
@@ -37,7 +46,7 @@ function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="mainNavbar">
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav ms-auto align-items-center">
             <li className="nav-item">
               <NavLink className="nav-link" to="/" end>
                 Inicio
@@ -57,20 +66,21 @@ function Navbar() {
               <>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/dashboard">
+                    <span className="me-1">📊</span>
                     Mi Dashboard
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <button className="btn btn-outline-light ms-2" onClick={handleLogout}>
+                <li className="nav-item ms-2">
+                  <button className="btn btn-outline-primary" onClick={handleLogout}>
                     Cerrar Sesión
                   </button>
                 </li>
               </>
             ) : (
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
+              <li className="nav-item ms-2">
+                <Link className="btn btn-primary" to="/login">
                   Iniciar Sesión
-                </NavLink>
+                </Link>
               </li>
             )}
           </ul>

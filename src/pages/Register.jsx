@@ -151,27 +151,31 @@ function Register() {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-5">
-          <div className="card shadow">
-            <div className="card-body p-4">
-              <h2 className="card-title text-center mb-4">Registrarse</h2>
-              
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="auth-header">
+            <div className="auth-icon">🦷</div>
+            <h1 className="auth-title">Crear cuenta</h1>
+            <p className="auth-subtitle">Regístrate para comenzar a cuidar tu sonrisa</p>
+          </div>
 
-              {success && (
-                <div className="alert alert-success" role="alert">
-                  {success}
-                </div>
-              )}
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
+          {success && (
+            <div className="alert alert-success" role="alert">
+              {success}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
                   <label htmlFor="nombre" className="form-label">
                     Nombre *
                   </label>
@@ -182,11 +186,13 @@ function Register() {
                     name="nombre"
                     value={formData.nombre}
                     onChange={handleChange}
+                    placeholder="Juan"
                     required
                   />
                 </div>
-
-                <div className="mb-3">
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
                   <label htmlFor="apellido" className="form-label">
                     Apellido *
                   </label>
@@ -197,96 +203,102 @@ function Register() {
                     name="apellido"
                     value={formData.apellido}
                     onChange={handleChange}
+                    placeholder="Pérez"
                     required
                   />
                 </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Correo Electrónico *
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                  <small className="text-muted">
-                    No usaremos tu correo para spam
-                  </small>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="telefono" className="form-label">
-                    Número de Teléfono *
-                  </label>
-                  <input
-                    type="tel"
-                    className="form-control"
-                    id="telefono"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                    placeholder="Solo números"
-                    required
-                  />
-                  <small className="text-muted">
-                    Solo el número, sin código de país (+57)
-                  </small>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Contraseña *
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
-                  <small className="text-muted">
-                    Mínimo 6 caracteres
-                  </small>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">
-                    Confirmar Contraseña *
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  disabled={loading}
-                >
-                  {loading ? 'Registrando...' : 'Registrarse'}
-                </button>
-              </form>
-
-              <div className="text-center mt-3">
-                <p className="mb-0">
-                  ¿Ya tienes una cuenta?{' '}
-                  <Link to="/login">Inicia sesión aquí</Link>
-                </p>
               </div>
             </div>
+
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">
+                Correo Electrónico *
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="tu@email.com"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="telefono" className="form-label">
+                Número de Teléfono *
+              </label>
+              <input
+                type="tel"
+                className="form-control"
+                id="telefono"
+                name="telefono"
+                value={formData.telefono}
+                onChange={handleChange}
+                placeholder="1234567890"
+                required
+              />
+              <small className="form-text text-muted">
+                Solo números, sin código de país
+              </small>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">
+                Contraseña *
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+              />
+              <small className="form-text text-muted">
+                Mínimo 6 caracteres
+              </small>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword" className="form-label">
+                Confirmar Contraseña *
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg w-100 auth-submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="spinner-border spinner-border-sm me-2"></span>
+              ) : null}
+              {loading ? 'Registrando...' : 'Crear Cuenta'}
+            </button>
+          </form>
+
+          <div className="auth-footer">
+            <p className="auth-footer-text">
+              ¿Ya tienes una cuenta?{' '}
+              <Link to="/login" className="auth-link">
+                Inicia sesión aquí
+              </Link>
+            </p>
           </div>
         </div>
       </div>
